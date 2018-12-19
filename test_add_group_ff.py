@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class UntitledTestCase(unittest.TestCase):
+class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
@@ -15,29 +15,56 @@ class UntitledTestCase(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_untitled_test_case(self):
+    def test_add_group(self):
         driver = self.driver
-        driver.get("http://localhost/addressbook/")
+        self.open_home_page(driver)
+        self.login(driver)
+        self.open_groups_page(driver)
+        self.create_group(driver)
+        self.return_to_groups_page(driver)
+        self.logout(driver)
+
+    def logout(self, driver):
+        # logout
+        driver.find_element_by_link_text("Logout").click()
+
+    def return_to_groups_page(self, driver):
+        # return to groups page
+        driver.find_element_by_link_text("group page").click()
+
+    def create_group(self, driver):
+        # init group creation
+        driver.find_element_by_name("new").click()
+        # fill group form
+        driver.find_element_by_name("group_name").click()
+        driver.find_element_by_name("group_name").clear()
+        driver.find_element_by_name("group_name").send_keys("Friends")
+        driver.find_element_by_name("group_header").click()
+        driver.find_element_by_name("group_header").clear()
+        driver.find_element_by_name("group_header").send_keys("Good Morning")
+        driver.find_element_by_name("group_footer").clear()
+        driver.find_element_by_name("group_footer").send_keys("Good Evening")
+        # submit group creation
+        driver.find_element_by_name("submit").click()
+
+    def open_groups_page(self, driver):
+        # open groups page
+        driver.find_element_by_link_text("groups").click()
+
+    def login(self, driver):
+        # login
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys("admin")
         driver.find_element_by_name("pass").clear()
         driver.find_element_by_name("pass").send_keys("secret")
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]").click()
-        driver.find_element_by_link_text("groups").click()
-        driver.find_element_by_name("new").click()
-        driver.find_element_by_name("group_name").click()
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys("Legal")
-        driver.find_element_by_name("group_header").click()
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys("Lawer")
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys("Portnov")
-        driver.find_element_by_name("submit").click()
-        driver.find_element_by_link_text("group page").click()
-        driver.find_element_by_link_text("Logout").click()
-    
+        driver.find_element_by_xpath(
+            "(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]").click()
+
+    def open_home_page(self, driver):
+        # open home page
+        driver.get("http://localhost/addressbook/")
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False

@@ -7,7 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class AddressBookRecorded(unittest.TestCase):
+class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
@@ -15,7 +15,7 @@ class AddressBookRecorded(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_address_book_recorded(self):
+    def test_add_group(self):
         driver = self.driver
         driver.get("http://localhost/addressbook/")
         driver.find_element_by_name("user").clear()
@@ -27,10 +27,10 @@ class AddressBookRecorded(unittest.TestCase):
         driver.find_element_by_name("new").click()
         driver.find_element_by_name("group_name").click()
         driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys("Business")
+        driver.find_element_by_name("group_name").send_keys("My Clever Team")
         driver.find_element_by_name("group_header").click()
         driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys("QA Testers")
+        driver.find_element_by_name("group_header").send_keys("QA Automation Engineers")
         driver.find_element_by_name("group_footer").click()
         driver.find_element_by_name("group_footer").clear()
         driver.find_element_by_name("group_footer").send_keys("Developers")
