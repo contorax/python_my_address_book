@@ -12,10 +12,7 @@ class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path="/Users/zafar/Documents/GitHub/libs/geckodriver")
         self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-    
+
     def test_add_group(self):
         driver = self.driver
         self.open_home_page(driver)
@@ -98,7 +95,6 @@ class TestAddGroup(unittest.TestCase):
     
     def tearDown(self):
         self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
+        
 if __name__ == "__main__":
     unittest.main()
