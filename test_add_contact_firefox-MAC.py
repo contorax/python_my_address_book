@@ -15,22 +15,17 @@ class TestAddContact(unittest.TestCase):
     
     def test_add_contact(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
         self.create_contact(driver,  Contact (first_name = "JOKhan", last_name="Whitwad", mobile_number="3919999992", email="adaiy@company.com"))
-        self.return_to_home_page(driver)
-        self.logout(driver)
 
     def test_add_empty_contact(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
         self.create_contact(driver,Contact (first_name="", last_name="", mobile_number="", email="x@y.com"))
-        self.return_to_home_page(driver)
-        self.logout(driver)
 
     def logout(self, driver):
         driver.find_element_by_link_text("Logout").click()
+        self.logout(driver)
 
     def return_to_home_page(self, driver):
         driver.find_element_by_link_text("home").click()
@@ -55,8 +50,10 @@ class TestAddContact(unittest.TestCase):
         # submit contact creation
         driver.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[1]").click()
+        self.return_to_home_page(driver)
 
     def login(self, driver, username, password):
+        self.open_home_page(driver)
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys(username)
         driver.find_element_by_name("pass").clear()
