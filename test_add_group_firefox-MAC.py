@@ -15,31 +15,25 @@ class TestAddGroup(unittest.TestCase):
 
     def test_add_group(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
-        self.open_groups_page(driver)
         self.create_group(driver, Group( name="Friends", header="Good Morning", footer="Good Evening")) # создаем объект типа группа и передаем его параметры в конструктор
-        self.return_to_groups_page(driver)
-        self.logout(driver)
 
     def test_add_empty_group(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver, username="admin", password="secret")
-        self.open_groups_page(driver)
         self.create_group(driver, Group (name=" ", header=" ", footer=" "))
-        self.return_to_groups_page(driver)
-        self.logout(driver)
 
     def logout(self, driver):
         # logout
         driver.find_element_by_link_text("Logout").click()
+        self.logout(driver)
 
     def return_to_groups_page(self, driver):
         # return to groups page
         driver.find_element_by_link_text("group page").click()
 
     def create_group(self, driver, group):
+        self.open_groups_page(driver)
         # init group creation
         driver.find_element_by_name("new").click()
         # fill group form
@@ -53,6 +47,7 @@ class TestAddGroup(unittest.TestCase):
         driver.find_element_by_name("group_footer").send_keys(group.footer)
         # submit group creation
         driver.find_element_by_name("submit").click()
+        self.return_to_groups_page(driver)
 
     def open_groups_page(self, driver):
         # open groups page
@@ -60,6 +55,7 @@ class TestAddGroup(unittest.TestCase):
 
     def login(self, driver, username, password):
         # login
+        self.open_home_page(driver)
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys(username)
