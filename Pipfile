@@ -20,7 +20,7 @@ requests = "==2.21.0"
 selenium = "==3.141.0"
 six = "==1.12.0"
 tqdm = "==4.28.1"
-urllib3 = "==1.24.1"
+urllib3 = "==1.24.2"
 webdriverdownloader = "==0.1.dev2"
 
 [requires]
